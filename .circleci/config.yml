@@ -1,6 +1,5 @@
 version: 2.1
 
-
 orbs:
   accuknox-scan: accuknox/scan@1.0.0
 
