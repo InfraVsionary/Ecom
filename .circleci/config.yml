@@ -3,8 +3,32 @@ version: 2.1
 orbs:
   accuknox-scan: accuknox/scan@1.0.0
 
+jobs:
+  build-docker-image:
+    docker:
+      - image: cimg/base:stable
+    environment:
+      IMAGE_NAME: circleci
+      TAG: test
+      DOCKERFILE: Dockerfile
+      BUILD_CONTEXT: .
+    steps:
+      - checkout
+      - run:
+          name: Build Docker Image
+          command: |
+            TAG=${TAG:-$CIRCLE_SHA1}
+            docker build -t $IMAGE_NAME:$TAG -f $DOCKERFILE $BUILD_CONTEXT
+            echo "export DOCKER_IMAGE=$IMAGE_NAME:$TAG" >> $BASH_ENV
+
 workflows:
   accuknox:
     jobs:
-      - accuknox-scan/secret:
+      - build-docker-image
+      - accuknox-scan/container:
+          requires:
+            - build-docker-image
+          IMAGE_NAME: circleci
+          TAG: test
           SOFT_FAIL: true
+          SEVERITY: "UNKNOWN,LOW,MEDIUM,HIGH,CRITICAL"
