@@ -6,5 +6,20 @@ orbs:
 workflows:
   accuknox:
     jobs:
+      - printenv
       - accuknox-scan/sast:
           SOFT_FAIL: true
+
+
+
+jobs:
+  env-vars:
+    docker:
+      - image: cimg/base:stable
+    steps:
+      - checkout
+      - run:
+          name: env-vars
+          command: |
+            printenv
+
