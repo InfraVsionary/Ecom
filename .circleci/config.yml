@@ -3,24 +3,8 @@ version: 2.1
 orbs:
   accuknox-scan: accuknox/scan@1.0.0
 
-jobs:
-  envvar:
-    docker:
-      - image: cimg/base:stable
-    steps:
-      - checkout
-      - run:
-          name: Build Docker Image
-          command: |
-            echo "print env"
-            printenv
-
-
 workflows:
   accuknox:
     jobs:
-      - envvar
-      - accuknox-scan/sast:
-          requires:
-            - envvar
+      - accuknox-scan/secret:
           SOFT_FAIL: true
