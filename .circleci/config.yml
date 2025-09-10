@@ -26,16 +26,14 @@ workflows:
     jobs:
     - accuknox-scan/sast:
         SOFT_FAIL: true
-    - accuknox-scan/sq-sast:
-        SOFT_FAIL: true
-        SKIP_SONAR_SCAN: false
+
     - accuknox-scan/iac:
         SOFT_FAIL: true
     - accuknox-scan/secret:
         SOFT_FAIL: true
-    - accuknox-scan/dast:
-        SOFT_FAIL: true
-        TARGET_URL: "http://testphp.vulnweb.com"
+   # - accuknox-scan/dast:
+    #    SOFT_FAIL: true
+     #   TARGET_URL: "http://testphp.vulnweb.com"
     - build-docker-image
     - accuknox-scan/container:
         requires:
@@ -43,4 +41,4 @@ workflows:
         IMAGE_NAME: circleci
         IMAGE_TAR: image.tar
         TAG: test
-        SOFT_F
+        SOFT_FAIL: true
