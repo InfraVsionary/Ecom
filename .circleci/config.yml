@@ -42,3 +42,5 @@ workflows:
         IMAGE_TAR: image.tar
         TAG: test
         SOFT_FAIL: true
+
+        ###
